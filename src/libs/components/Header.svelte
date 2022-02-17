@@ -1,5 +1,10 @@
-<script>
-    export const classes = ""
+<script lang="ts">
+	import { session } from '$app/stores';
+	import { signOut } from '$libs/utils/firebase';
+    
+    export const classes: string = ""
+	let thisSession: any;
+	$: thisSession = $session;
 </script>
 <header class="{classes} w-full h-auto border-b">
     <div class="flex flex-col md:flex-row justify-between px-4 md:px-8">
@@ -10,11 +15,19 @@
             </span>
         </div>
         <div class="flex flex-row justify-center py-4 md:py-6">
+            {#if thisSession.user}
+            <div class="mr-8" on:click={() => signOut()}>
+                <span class="uppercase text-xs font-bold">
+                    <small class="tracking-widest text-blue-500">Logout</small>
+                </span>
+            </div>
+            {:else}
             <div class="mr-8">
                 <span class="uppercase text-xs font-bold">
                     <small class="tracking-widest text-blue-500">Sign Up</small>
                 </span>
             </div>
+            {/if}
             <div class="mr-2">
                 <span class="uppercase text-xs font-bold">
                     <small>FAQ</small>

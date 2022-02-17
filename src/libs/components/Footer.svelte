@@ -1,11 +1,11 @@
-<script>
-    export const classes = ""
+<script lang="ts">
+    export const classes: string = ""
 </script>
 
 <footer class="{classes} w-full h-auto border-t">
     <div class="flex flex-col md:flex-row items-center justify-between">
         <div class="flex mt-4 md:m-0 py-4">
-            <a href="#" class="mt-2 text-xs font-bold text-gray-800 hover:text-gray-700 mx-4 uppercase">
+            <a href="https://ikziriv.com" class="mt-2 text-xs font-bold text-gray-800 hover:text-gray-700 mx-4 uppercase">
                 <small>© COPYRIGHT 2022 BY IKZIRIV</small>
             </a>
         </div>
