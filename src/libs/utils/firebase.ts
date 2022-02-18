@@ -83,6 +83,7 @@ function providerFor(name: string) {
 			throw 'unknown provider ' + name;
 	}
 }
+
 export async function signInWith(name: string) {
 	const auth = getAuth(app);
 	const provider = providerFor(name);

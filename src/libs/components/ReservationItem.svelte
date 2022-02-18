@@ -17,8 +17,8 @@
 	import type { LoadInput } from '@sveltejs/kit';
 	import { session } from '$app/stores';
 	import { scale } from 'svelte/transition';
-	import { Reservation } from '$libs/models/Reservation';
-	import { deleteDocument, getCollectionStore, saveDocument } from '$libs/utils/firebase';
+	import { Reservation } from '../../libs/models/Reservation';
+	import { deleteDocument, getCollectionStore, saveDocument } from '../../libs/utils/firebase';
 
 	let thisSession: any = $session;
 	export let reservationsData: Array<Partial<Reservation>>;

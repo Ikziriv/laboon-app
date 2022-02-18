@@ -1,4 +1,4 @@
-import { createDocument, getDocuments, decodeToken } from '$libs/server/firebase';
+import { createDocument, getDocuments, decodeToken } from '../../libs/server/firebase';
 import type { RequestHandler } from '@sveltejs/kit';
 import cookie from 'cookie';
 

@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import { publicPages } from '$libs/utils/constants';
-	import { initializeFirebase } from '$libs/utils/firebase';
+	import { publicPages } from '../libs/utils/constants';
+	import { initializeFirebase } from '../libs/utils/firebase';
 	import { browser } from '$app/env';
 	export async function load({ url, session }: LoadInput) {
 		const thisSession: any = session;

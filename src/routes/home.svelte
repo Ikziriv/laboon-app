@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	export async function load({ fetch }: LoadInput) {
-		const res = await fetch(`/api/data?collectionPath=todos`);
+		const res = await fetch(`/api/data?collectionPath=reservations`);
 		if (res.ok) {
 			const reservationsData = await res.json();
 			return {
@@ -17,8 +17,8 @@
 	import type { LoadInput } from '@sveltejs/kit';
 	import { scale } from 'svelte/transition';
 	import { session } from '$app/stores';
-	import { Reservation } from '$libs/models/Reservation';
-	import { deleteDocument, getCollectionStore, saveDocument } from '$libs/utils/firebase';
+	import { Reservation } from '../libs/models/Reservation';
+	import { deleteDocument, getCollectionStore, saveDocument } from '../libs/utils/firebase';
     // import ReservationItem from '$libs/components/ReservationItem.svelte'
     
 	let thisSession: any = $session;

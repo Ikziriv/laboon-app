@@ -1,5 +1,6 @@
 import sveltePreprocess from 'svelte-preprocess';
-import adapter from '@sveltejs/adapter-auto';
+import adapterVercel from '@sveltejs/adapter-vercel';
+// import adapterAuto from '@sveltejs/adapter-auto';
 import path from "path";
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -8,7 +9,7 @@ const config = {
         postcss: true,
     }),
     kit: {
-        adapter: adapter(),
+        adapter: adapterVercel(),
         vite: () => ({
             resolve: {
                 $components: path.resolve('src/libs/components'),

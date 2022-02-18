@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { session } from '$app/stores';
-	import { signOut } from '$libs/utils/firebase';
+	import { signOut } from '../../libs/utils/firebase';
     
     export const classes: string = ""
 	let thisSession: any;
@@ -17,13 +17,13 @@
         <div class="flex flex-row justify-center py-4 md:py-6">
             {#if thisSession.user}
             <div class="mr-8" on:click={() => signOut()}>
-                <span class="uppercase text-xs font-bold">
-                    <small class="tracking-widest text-blue-500">Logout</small>
+                <span class="uppercase text-xs font-bold cursor-pointer">
+                    <small class="tracking-widest text-red-500">Logout</small>
                 </span>
             </div>
             {:else}
             <div class="mr-8">
-                <span class="uppercase text-xs font-bold">
+                <span class="uppercase text-xs font-bold cursor-pointer">
                     <small class="tracking-widest text-blue-500">Sign Up</small>
                 </span>
             </div>
