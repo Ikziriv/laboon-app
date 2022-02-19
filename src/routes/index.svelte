@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page, session } from '$app/stores';
-	import { signInWith } from '../libs/utils/firebase';
+	import { signInWith, signInGoogleWithPopup, signOut} from '../libs/utils/firebase';
 
 	let thisSession: any;
 	$: thisSession = $session;
@@ -13,14 +13,14 @@
                     <div class="w-full h-auto flex flex-col">
                         <div class="flex w-full overflow-hidden bg-white my-2">
                             {#if thisSession.user}
-                            <div class="flex items-center justify-center w-full py-4 cursor-pointer hover:bg-gray-100">
+                            <div class="flex items-center justify-center w-full py-4 cursor-pointer hover:bg-gray-100 cursor-pointer" on:click={() => signOut()}>
                                 <svg class="bi bi-box-arrow-in-left w-6 h-6 text-red-500 fill-current" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
                                     <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
                                 </svg>
                             </div>
                             {:else}
-                            <div class="flex items-center justify-center w-full py-4 cursor-pointer hover:bg-gray-100">
+                            <div class="flex items-center justify-center w-full py-4 cursor-pointer hover:bg-gray-100 cursor-pointer">
                                 <svg class="bi bi-box-arrow-in-right w-6 h-6 text-gray-900 fill-current" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
                                     <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
@@ -61,7 +61,7 @@
                         
                         <div class="px-4 py-2 -mx-3">
                             <div class="mx-3">
-                                <span class="font-bold text-gray-900">Profile</span>
+                                <span class="font-bold text-gray-900">{thisSession.user.name}</span>
                                 <p class="text-sm text-gray-700">Go to your account</p>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
             <div class="col-span-full md:col-span-8">
                 <div class="container w-full h-[33rem] mx-auto flex flex-col justify-center items-center">
                     
-                    <button class="flex w-full max-w-sm mx-auto overflow-hidden bg-white hover:bg-gray-100 rounded-lg border border-green-500 shadow-md my-2" on:click={() => signInWith('google')}>
+                    <button class="flex w-full max-w-sm mx-auto overflow-hidden bg-white hover:bg-gray-100 rounded-lg border border-green-500 shadow-md my-2" on:click={() => signInGoogleWithPopup()}>
                         <div class="flex items-center justify-center h-16 w-16 border-r">
                             <svg class="bi bi-google w-6 h-6 text-gray-900 fill-current" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                 <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"/>

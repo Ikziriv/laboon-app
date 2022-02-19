@@ -18,6 +18,7 @@ import {
 	signInWithRedirect,
 	signOut as _signOut,
 	GoogleAuthProvider,
+	signInWithPopup,
 	onIdTokenChanged
 } from 'firebase/auth';
 import { session } from '$app/stores';
@@ -88,6 +89,12 @@ export async function signInWith(name: string) {
 	const auth = getAuth(app);
 	const provider = providerFor(name);
 	await signInWithRedirect(auth, provider);
+}
+
+export async function signInGoogleWithPopup() {
+	const auth = getAuth(app);
+	const googleProvider = new GoogleAuthProvider();
+	await signInWithPopup(auth, googleProvider);
 }
 
 export async function signOut() {
