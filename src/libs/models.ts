@@ -15,3 +15,8 @@ export interface Reservation {
     complete: boolean;
     createdAt: Date;
 }
+
+export interface TemperatureInfo {
+	celsius: string;
+	fahrenheit: string;
+}

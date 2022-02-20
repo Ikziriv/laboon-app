@@ -14,11 +14,13 @@
 	}
 </script>
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import type { LoadInput } from '@sveltejs/kit';
 	import { scale } from 'svelte/transition';
 	import { session } from '$app/stores';
 	import { Reservation } from '../libs/models/Reservation';
 	import { deleteDocument, getCollectionStore, saveDocument } from '../libs/utils/firebase';
+	import authStore from '../libs/stores/user';
     // import ReservationItem from '$libs/components/ReservationItem.svelte'
     
 	let thisSession: any = $session;
@@ -35,6 +37,7 @@
 	let newText = '';
 	let newEmail = '';
 	let newRsvCode = '';
+	let error = false;
     
 	async function addReservation() {
 		const rsv = new Reservation();
@@ -69,6 +72,15 @@
 		rsv.pendingDelete = true;
 		deleteDocument(rsv);
 	}
+    
+	authStore.subscribe(async ({ isLoggedIn, firebaseControlled }) => {
+		if (!isLoggedIn && firebaseControlled) {
+			error = true;
+			setTimeout(async () => {
+				await goto('/');
+			}, 1500);
+		}
+	});
 </script>
 
 <div class="h-auto w-full bg-gray-100">
