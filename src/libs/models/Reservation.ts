@@ -1,6 +1,6 @@
 import { v4 as uuid } from '@lukeed/uuid';
 import { sortBy } from "lodash";
-import { map, pipe, fromPairs, reject, isNil } from "lodash/fp";
+import { map, pipe, fromPairs, reject, isNil } from "lodash/fp.js";
 
 export interface NewReservation {
     id: string;
