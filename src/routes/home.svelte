@@ -16,12 +16,12 @@
 	});
 </script>
 
-<div class="h-auto w-full bg-gray-100">
+<div class="h-auto w-full bg-gray-100 dark:bg-gray-800">
     <div class="grid grid-cols-12 gap-0">
-        <div class="col-span-full md:col-span-4 bg-white relative border-r">
+        <div class="col-span-full md:col-span-4 bg-white dark:bg-gray-800 relative border-r">
             
             <div class="absolute inset-y-0 left-0 border-r">
-                <div class="w-24 bg-white h-auto md:h-[33rem] flex flex-col justify-between items-center border-l relative">
+                <div class="w-24 bg-white dark:bg-gray-900 h-auto md:h-[34.5rem] flex flex-col justify-between items-center border-l relative">
                     <div class="w-full h-auto flex flex-col">
                         <div class="flex w-full overflow-hidden bg-white my-2">
                             <div class="flex items-center justify-center w-full py-4">
@@ -34,9 +34,9 @@
                     </div>
 
                     <div class="w-full h-auto flex flex-col">
-                        <div class="flex w-full overflow-hidden bg-gray-100 my-2">
+                        <div class="flex w-full overflow-hidden bg-gray-100 dark:bg-gray-800 my-2">
                             <div class="flex items-center justify-center w-full py-4">
-                                <svg class="bi bi-person-circle w-6 h-6 text-gray-900 fill-current" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <svg class="bi bi-person-circle w-6 h-6 text-gray-900 dark:text-white fill-current" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
                                 </svg>
@@ -47,17 +47,17 @@
                 </div>
             </div>
             
-            <div class="p-6 mx-auto bg-white pl-32">
-                <h2 class="text-lg font-semibold text-gray-700 capitalize">Reservation Input</h2>
+            <div class="p-6 mx-auto bg-white dark:bg-gray-900 pl-32">
+                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300 capitalize">Reservation Input</h2>
                 
                 
                 <ReservationForm />
             </div>
 
         </div>
-        <div class="col-span-full md:col-span-8 bg-white relative">
+        <div class="col-span-full md:col-span-8 bg-white dark:bg-gray-900 relative">
             <div class="w-full h-auto py-3 md:py-6 px-8 border-b md:mb-4">
-                <h2 class="text-lg font-semibold text-gray-700 capitalize">Reservation List</h2>
+                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300 capitalize">Reservation List</h2>
             </div>
 
             <Reservation />

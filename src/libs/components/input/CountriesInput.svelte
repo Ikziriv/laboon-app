@@ -12,7 +12,7 @@
 </script>
 
 <div class="flex flex-col align-middle items-start justify-start">
-	<p class="mx-2 text-sm font-bold">Countries</p>
+	<p class="mx-2 text-sm font-bold dark:text-white">Countries</p>
 	<div>
 		{#if data.data}
 			<AutoComplete

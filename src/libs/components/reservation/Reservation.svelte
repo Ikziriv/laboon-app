@@ -30,7 +30,7 @@
             <div class="px-4 py-2 -mx-3">
                 <div class="mx-3">
                     <span class="font-semibold text-emerald-500 dark:text-emerald-400">Reservation Task Complete</span>
-                    <p class="text-sm text-gray-600 dark:text-gray-200">Your was awesome dude!</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-200">Your awesome dude!</p>
                 </div>
             </div>
         </div>

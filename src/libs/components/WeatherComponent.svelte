@@ -66,8 +66,8 @@
         </div>
     </div>
 	{:else if result && result.data === null}
-	<p class="text-gray-700 font-semibold text-sm">No Data Available for the city</p>
+	<p class="text-gray-700 dark:text-gray-300 font-semibold text-sm">No Data Available for the city</p>
 	{:else}
-	<p class="text-gray-700 font-semibold text-sm">{value.result}</p>
+	<p class="text-gray-700 dark:text-gray-300 font-semibold text-sm">{value.result}</p>
 	{/if}
 </div>

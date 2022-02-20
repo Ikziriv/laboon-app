@@ -15,7 +15,7 @@
 </script>
 
 <div class="flex flex-col align-middle items-start justify-start">
-	<p class="mx-2 text-sm font-bold">Cities</p>
+	<p class="mx-2 text-sm font-bold dark:text-white">Cities</p>
 	<div>
 		{#if data}
 			<AutoComplete
