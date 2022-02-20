@@ -1,81 +1,14 @@
-<script context="module" lang="ts">
-	export async function load({ fetch }: LoadInput) {
-		const res = await fetch(`/api/data?collectionPath=reservations`);
-		if (res.ok) {
-			const reservationsData = await res.json();
-			return {
-				props: { reservationsData }
-			};
-		}
-		const { message } = await res.json();
-		return {
-			error: new Error(message)
-		};
-	}
-</script>
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import type { LoadInput } from '@sveltejs/kit';
-	import { scale } from 'svelte/transition';
 	import { session } from '$app/stores';
-	import { Reservation } from '../libs/models/Reservation';
-	import { deleteDocument, getCollectionStore, saveDocument } from '../libs/utils/firebase';
 	import authStore from '../libs/stores/user';
-    // import ReservationItem from '$libs/components/ReservationItem.svelte'
+    import { Reservation, ReservationForm } from '../libs/components/index'
     
 	let thisSession: any = $session;
-	export let reservationsData: Array<Partial<Reservation>>;
-	let reservations = getCollectionStore(
-		Reservation,
-		'reservations',
-		thisSession.user.uid,
-		reservationsData.map((t) => new Reservation(t))
-	);
-    // New Input
-	let newRsvName = '';
-	let newPhone = '';
-	let newText = '';
-	let newEmail = '';
-	let newRsvCode = '';
-	let error = false;
-    
-	async function addReservation() {
-		const rsv = new Reservation();
-		rsv.uid = (await thisSession).user.uid;
-		rsv.rsvName = newRsvName;
-		rsv.phone = newPhone;
-		rsv.text = newText;
-		rsv.email = newEmail;
-		rsv.rsvCode = newRsvCode;
-		saveDocument(rsv);
-
-		newRsvName = '';
-		newPhone = '';
-		newText = '';
-		newEmail = '';
-		newRsvCode = '';
-	}
-    
-	async function updateReservation(rsv: Reservation) {
-		saveDocument(rsv);
-		if (document.activeElement) {
-			(document.activeElement as HTMLElement).blur();
-		}
-	}
-    
-	async function toggleComplete(rsv: Reservation) {
-		rsv.complete = !rsv.complete;
-		saveDocument(rsv);
-	}
-
-	async function deleteReservation(rsv: Reservation) {
-		rsv.pendingDelete = true;
-		deleteDocument(rsv);
-	}
+	console.log(thisSession.user);
     
 	authStore.subscribe(async ({ isLoggedIn, firebaseControlled }) => {
 		if (!isLoggedIn && firebaseControlled) {
-			error = true;
 			setTimeout(async () => {
 				await goto('/');
 			}, 1500);
@@ -88,7 +21,7 @@
         <div class="col-span-full md:col-span-4 bg-white relative border-r">
             
             <div class="absolute inset-y-0 left-0 border-r">
-                <div class="w-24 bg-white h-[33rem] flex flex-col justify-between items-center border-l relative">
+                <div class="w-24 bg-white h-auto md:h-[33rem] flex flex-col justify-between items-center border-l relative">
                     <div class="w-full h-auto flex flex-col">
                         <div class="flex w-full overflow-hidden bg-white my-2">
                             <div class="flex items-center justify-center w-full py-4">
@@ -117,38 +50,8 @@
             <div class="p-6 mx-auto bg-white pl-32">
                 <h2 class="text-lg font-semibold text-gray-700 capitalize">Reservation Input</h2>
                 
-                <form on:submit|preventDefault={addReservation}>
-                    <div class="grid grid-cols-1 gap-2 mt-4">
-                        <div>
-							<label class="text-xs font-semibold" for="name">Name</label>
-                            <input id="rsvName" type="text" bind:value={newRsvName} class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
-                        </div>
-
-                        <div>
-							<label class="text-xs font-semibold" for="phone">Phone</label>
-                            <input id="phone" type="text" bind:value={newPhone} class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
-                        </div>
-
-                        <div>
-							<label class="text-xs font-semibold" for="text">Description</label>
-                            <input id="text" type="text" bind:value={newText} class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
-                        </div>
-
-                        <div>
-							<label class="text-xs font-semibold" for="email">Email</label>
-                            <input id="email" type="email" bind:value={newEmail} class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
-                        </div>
-
-                        <div>
-							<label class="text-xs font-semibold" for="sailboat">Sailboat</label>
-                            <input id="rsvCode" type="email" bind:value={newRsvCode} class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
-                        </div>
-                    </div>
-
-                    <div class="flex justify-end mt-6">
-                        <button type="submit" class="w-full px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Add Reservation</button>
-                    </div>
-                </form>
+                
+                <ReservationForm />
             </div>
 
         </div>
@@ -157,43 +60,7 @@
                 <h2 class="text-lg font-semibold text-gray-700 capitalize">Reservation List</h2>
             </div>
 
-            {#if $reservations && $reservations.length}
-            <div class="container w-full h-[27rem] mx-auto flex flex-col justify-start items-start px-2 md:px-4">
-                
-                {#each $reservations as rsvtion (rsvtion._id)}
-
-                <div class="flex w-full mx-auto overflow-hidden bg-white rounded-lg shadow-md my-2 relative" 
-                    transition:scale|local={{ start: 0.7 }}>
-                    <div class="px-4 py-2 -mx-3">
-                        <div class="mx-3">
-                            <form on:submit|preventDefault={() => toggleComplete(rsvtion)}>
-                                <input type="hidden" name="done" value={rsvtion.complete ? '' : 'true'} />
-                                <button class="toggle" aria-label="Mark todo as {rsvtion.complete ? 'not done' : 'done'}" />
-                            </form>
-                        </div>
-                        <div class="mx-3">
-                            <span class="font-bold text-gray-900">{rsvtion.rsvCode} / {rsvtion.rsvName} - {rsvtion.phone}</span>
-                            <p class="text-sm text-gray-700">{rsvtion.text}</p>
-                        </div>
-                    </div>
-                
-                    <div class="absolute inset-y-0 right-0">
-                        <div class="h-auto w-auto py-4">
-                            <form on:submit|preventDefault={() => deleteReservation(rsvtion)}>
-                                <div class="flex items-center justify-center w-16 border-l hover:bg-gray-100">
-                                    <svg class="bi bi-trash w-6 h-6 text-red-500 fill-current" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                    </svg>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                {/each}
-                    
-            </div>
-            {/if}
+            <Reservation />
         </div>
     </div>
 </div>

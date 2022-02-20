@@ -1,5 +1,5 @@
 <script lang="ts">
-    export const classes: string = ""
+    export const classes: string = undefined
 </script>
 
 <footer class="{classes} w-full h-auto border-t">

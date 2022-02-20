@@ -103,11 +103,11 @@
 	});
 </script>
 
-<div class="h-[33rem] w-full bg-gray-100">
+<div class="h-auto md:h-[33rem] w-full bg-gray-100">
     <div class="grid grid-cols-12 gap-0">
         <div class="col-span-full md:col-span-4 bg-white relative">
             <div class="absolute inset-y-0 right-0">
-                <div class="w-24 bg-white h-[33rem] flex flex-col justify-between items-center border-l relative">
+                <div class="w-24 bg-white h-auto md:h-[33rem] flex flex-col justify-between items-center border-l relative">
                     <div class="w-full h-auto flex flex-col">
                         <div class="flex w-full overflow-hidden bg-white my-0">
                             {#if thisSession.user}
@@ -164,9 +164,9 @@
         
         <div class="col-span-full md:col-span-8 relative">
             {#if map}
-            <div class="absolute inset-0 container w-full h-auto flex flex-col z-10">
+            <div class="absolute inset-0 container w-full h-auto bg-white flex flex-col z-10">
                 
-                <div class="flex flex-col justify-center items-center w-full ">
+                <div class="flex flex-col justify-center items-center w-full">
                     <div
                         class="py-4 px-4 mb-0 bg-white dark:bg-gray-600 flex-1 w-full flex align-middle items-center justify-between"
                     >
@@ -215,8 +215,8 @@
             {/if}
             
             {#if weather}
-            <div class="absolute inset-0 container w-full h-auto flex flex-col z-0">
-                <div class="w-full h-[33rem] flex justify-center items-center">
+            <div class="absolute inset-0 container w-full h-auto bg-white flex flex-col z-0">
+                <div class="w-full h-auto md:h-[33rem] flex justify-center items-center">
                     <div class="flex justify-center align-middle items-center">
                         <div
                             class="p-4 m-2 border border-gray-200 dark:border-gray-500 rounded shadow bg-white dark:bg-gray-600"
@@ -266,7 +266,7 @@
             {/if}
 
             {#if thisSession.user}
-            <div class="container w-full h-[33rem] mx-auto flex flex-col justify-center items-center">
+            <div class="container w-full h-auto md:h-[33rem] mx-auto flex flex-col justify-end md:justify-center items-end md:items-center">
                 
                 <a sveltekit:prefetch href="/home" class="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md my-2">
                     <div class="flex items-center justify-center w-16 border-r">
@@ -286,7 +286,7 @@
                     
             </div>
             {:else}
-            <div class="container w-full h-[33rem] mx-auto flex flex-col justify-center items-center">
+            <div class="container w-full h-auto md:h-[33rem] mx-auto flex flex-col justify-end md:justify-center items-end md:items-center">
                 
                 <button class="flex w-full max-w-sm mx-auto overflow-hidden bg-white hover:bg-gray-100 rounded-lg border border-green-500 shadow-md my-2" on:click={() => signInGoogleWithPopup()}>
                     <div class="flex items-center justify-center h-16 w-16 border-r">

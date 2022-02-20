@@ -1,55 +1,48 @@
-import { writable } from 'svelte/store';
-import { db } from "../firebase";
-import type { Reservation } from "../models";
-import { onSnapshot } from 'firebase/firestore';
-import {
-    addDoc,
-    collection,
-    CollectionReference,
-    deleteDoc,
-    doc,
-    orderBy,
-    query,
-    serverTimestamp,
-    updateDoc,
-    where
-} from 'firebase/firestore';
+import { writable, derived } from "svelte/store";
+import { isError } from "result-async";
+import _ from "lodash";
 
-export const getReservations = (uid: string) => writable < Reservation[] > (null, (set) => {
-    const unsubscribe = onSnapshot < Reservation[] > (
-        query < Reservation[] > (
-            collection(db, 'reservations') as CollectionReference < Reservation[] > ,
-            where('uid', '==', uid),
-            orderBy('created')
-        ), (q) => {
-            const reservations = [];
-            q.forEach((doc) => reservations.push({...doc.data(), id: doc.id }));
-            set(reservations);
-        });
-    return () => {
-        if (unsubscribe) {
-            unsubscribe();
-        }
-    }
-});
+import { get, put } from "../../routes/api/axios-index";
+import type * as ReservationType from "../models/Reservation";
+import * as Reservation from "../models/Reservation";
 
-export const addReservation = (uid: string, rsvName: string, phone: string, text: string, email: string, rsvCode: string) => {
-    addDoc(collection(db, 'reservations'), {
-        uid,
-        rsvName,
-        phone,
-        text,
-        email,
-        rsvCode,
-        complete: false,
-        created: serverTimestamp()
+export const reservationMap = writable<ReservationType.Map>({});
+export const reservationList = derived(reservationMap, Object.values);
+
+export const loadReservations = async () => {
+    const response = await get<ReservationType.List, string>("/");
+  
+    if (isError(response)) return null;
+  
+    const reservationList = response.ok;
+    const reservationMapData = Reservation.listToMap(reservationList);
+  
+    reservationMap.set(reservationMapData);
+  };
+  
+  export const updateReservation = (reservation: ReservationType.T): void => {
+    reservationMap.update($reservationMap => {
+      return _.merge({}, $reservationMap, { [reservation.id]: reservation });
     });
-}
-
-export const updateReservation = (id: string, newStatus: boolean) => {
-    updateDoc(doc(db, 'reservations', id), { complete: newStatus });
-}
-
-export const deleteReservation = (id: string) => {
-    deleteDoc(doc(db, 'reservations', id));
-}
+    put<ReservationType.T, string>(`/${reservation.id}`, reservation);
+  };
+  
+  export const deleteReservation = (reservation: ReservationType.T): void => {
+    reservationMap.update($reservationMap => {
+      delete $reservationMap[reservation.id];
+      return $reservationMap;
+    });
+  };
+  
+  export const completeReservations = derived(reservationList, $reservationList =>
+    _.filter($reservationList, { complete: true })
+  );
+  
+  export const pendingReservations = derived(reservationList, $reservationList =>
+    _.filter($reservationList, { complete: false })
+  );
+  
+  export const areReservationsComplete = derived(
+    pendingReservations,
+    $pendingReservations => $pendingReservations.length === 0
+  );

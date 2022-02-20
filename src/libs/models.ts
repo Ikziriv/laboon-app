@@ -1,12 +1,11 @@
 export interface UserRec {
     displayName: string;
     photoURL: string;
-    uid: string;
     email: string;
+    uid: string;
 };
 
 export interface Reservation {
-    id: string;
     rsvName: string;
     phone: string;
     text: string;
@@ -14,6 +13,7 @@ export interface Reservation {
     rsvCode: string;
     complete: boolean;
     createdAt: Date;
+    id: number;
 }
 
 export interface TemperatureInfo {
