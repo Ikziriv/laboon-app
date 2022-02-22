@@ -43,11 +43,11 @@
 
 	$: loading.setNavigate(!!navigating)
 </script>
+<!-- <PageLoading /> -->
 <div class="w-full h-auto md:h-screen relative">
     <Header classes="fixed inset-x-0 top-0" />
     <main class="w-full h-auto relative">
 		<PageTransition>
-			<PageLoading />
         	<slot />
 		</PageTransition>
     </main>
