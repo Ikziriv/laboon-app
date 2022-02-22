@@ -48,7 +48,7 @@
             <div class="ml-4">
                 <button
                     type="button"
-                    class="bg-transparent px-6 py-1.5 shadow"
+                    class="bg-transparent px-6 py-1.5 shadow rounded-lg"
                     on:click={() => modeStore.update((m) => (m = !m))}
                     aria-label={`${modeStore ? 'Turn on Light Mode' : 'Turn on Dark Mode'}`}
                 >

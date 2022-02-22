@@ -30,16 +30,24 @@
 	}
 </script>
 <script lang="ts">
+	import { navigating } from '$app/stores';
     import type { LoadInput } from '@sveltejs/kit';
-    import Header from "../libs/components/Header.svelte"
-    import Footer from "../libs/components/Footer.svelte"
-    import PageTransition from '../libs/components/PageTransition.svelte';
+    import { 
+		Header, 
+		Footer, 
+		PageTransition,
+		PageLoading
+	} from "../libs/components/index";
+	import { loading } from '../libs/utils/loading'
 	import '../styles/css/app.css';
+
+	$: loading.setNavigate(!!navigating)
 </script>
 <div class="w-full h-auto md:h-screen relative">
     <Header classes="fixed inset-x-0 top-0" />
     <main class="w-full h-auto relative">
 		<PageTransition>
+			<PageLoading />
         	<slot />
 		</PageTransition>
     </main>
