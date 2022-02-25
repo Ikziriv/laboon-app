@@ -4,8 +4,11 @@
 	import { signOut } from '../../libs/utils/firebase';
 	import modeStore from '../../libs/stores/theme-store';
 	import { MoonIcon, SunIcon } from '../../libs/components/index';
+	import { modal } from '../../libs/stores';
     
     export const classes: string = undefined
+	export let modalAbout  = false;
+
 	let thisSession: any;
 	$: thisSession = $session;
 	$: if (browser && $modeStore === true) {
@@ -13,6 +16,11 @@
 	} else if (browser && $modeStore === false) {
 		document.documentElement.classList.remove('dark');
 	}
+    
+    // Function About
+    function toggleAbout() {
+        modalAbout = !modalAbout;
+    }
 </script>
 <header class="{classes} w-full h-auto border-b bg-white dark:bg-gray-900">
     <div class="flex flex-col md:flex-row justify-between px-4 md:px-8">
@@ -26,6 +34,11 @@
         </div>
         <div class="flex flex-row justify-between md:justify-center py-4 md:py-6">
             <div class="flex flex-row">
+                <div class="mr-4" on:click={() => toggleAbout()}>
+                    <span class="uppercase text-xs font-bold dark:text-white">
+                        <small>About</small>
+                    </span>
+                </div>
                 {#if thisSession.user}
                 <div class="mr-8" on:click={() => signOut()}>
                     <span class="uppercase text-xs font-bold cursor-pointer">

@@ -21,23 +21,36 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page, session } from '$app/stores';
+	import { slide } from 'svelte/transition';
+    import { getAuth, onAuthStateChanged } from 'firebase/auth';
 	import { signInWith, signInGoogleWithPopup, signOut} from '../libs/utils/firebase';
-	import { MapComponent, CitiesInput, CountriesInput, WeatherComponent } from '../libs/components/index';
 	import locationStore from '../libs/stores/location-store';
 	import citiesStore from '../libs/stores/cities-store';
 	import weatherStore from '../libs/stores/weather-store';
+    
+	import { 
+        MapComponent, 
+        CitiesInput, 
+        CountriesInput, 
+        WeatherComponent, 
+        ChatArea, 
+        RoomSetting 
+    } from '../libs/components/index';
 
 	let thisSession: any;
 	$: thisSession = $session;
     
+	let chat = false;
 	let map = false;
 	let weather = false;
+    let isInRoom = false;
     // Map
     let mapError: string;
 	let mapReady: boolean;
 	let mapScript: HTMLScriptElement;
 	let weatherInCity = {};
 
+    const auth = getAuth();
 	export let data;
     
 	const getCities = async (selectedCountry: any) => {
@@ -63,9 +76,20 @@
 	};
 
 	function toggleHome() {
+		chat = false;
 		map = false;
 		weather = false;
 	}
+    // Function Chat
+	function toggleChat() {
+		chat = !chat;
+		map = false;
+		weather = false;
+	}
+    function handleUserInRoom(e) {
+        isInRoom = e.detail.isInRoom;
+    }
+
     // Function Map
 	function success(position: { coords: { latitude: any; longitude: any; }; }) {
 		const lat = position.coords.latitude;
@@ -76,11 +100,15 @@
 		mapError = 'Unable to retrieve your location';
 	}
 	function toggleMap() {
+		chat = false;
 		map = !map;
+		weather = false;
 	}
 
     // Function Weather
 	function toggleWeather() {
+		chat = false;
+		map = false;
 		weather = !weather;
 	}
 
@@ -102,6 +130,10 @@
 		};
 	});
 </script>
+
+<svelte:head>
+	<title>Laboon | Welcome</title>
+</svelte:head>
 
 <div class="h-auto md:h-[33rem] w-full bg-gray-100 dark:bg-gray-800">
     <div class="grid grid-cols-12 gap-0">
@@ -130,6 +162,16 @@
                     </div>
 
                     <div class="w-full h-auto flex flex-col">
+                        {#if thisSession.user}
+                            <div class="flex w-full overflow-hidden bg-gray-100 dark:bg-gray-800 my-0 border-t" on:click={() => toggleChat()}>
+                                <div class="flex items-center justify-center w-full py-4 cursor-pointer">
+                                    <svg class="bi bi-chat w-6 h-6 text-gray-900 dark:text-white fill-current" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        {/if}
+
                         <div class="flex w-full overflow-hidden bg-gray-100 dark:bg-gray-800 my-0 border-t" on:click={() => toggleMap()}>
                             <div class="flex items-center justify-center w-full py-4 cursor-pointer">
                                 <svg class="bi bi-compass w-6 h-6 text-gray-900 dark:text-white fill-current" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -163,8 +205,47 @@
         </div>
         
         <div class="col-span-full md:col-span-8 relative">
+            {#if chat}
+            <div transition:slide class="absolute inset-0 container w-full h-auto bg-white dark:bg-gray-900 flex flex-col z-20">
+                
+                <div class="flex flex-col justify-center items-center w-full">
+                    <div
+                        class="py-4 px-4 mb-0 bg-white dark:bg-gray-900 flex-1 w-full flex align-middle items-center justify-between border-b"
+                    >
+                        <div class="flex flex-col">
+                            <h2 class="font-bold align-middle text-gray-800 dark:text-white">
+                                Laboon Chat
+                            </h2>
+                            <small class="text-gray-700 dark:text-gray-100">Chit chat about your journey on Island</small>
+                        </div>
+
+                        <button
+                            class="m-2 w-full inline-flex justify-center shadow-sm px-5 py-3 bg-gray-100 dark:bg-gray-900 text-base font-medium text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-gray-400 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm capitalize"
+                        >
+                            <svg class="bi bi-gear fill-current" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="flex-1 w-full h-auto md:h-[33rem]">
+                        <div class="grid grid-cols-4 gap-4">
+                            <div class="col-span-full md:col-span-3">
+                                <ChatArea {isInRoom} />
+                            </div>
+                            <div class="col-span-full md:col-span-1 bg-gray-100">
+                                <RoomSetting on:user-in-room={handleUserInRoom}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+            </div>
+            {/if}
+
             {#if map}
-            <div class="absolute inset-0 container w-full h-auto bg-white dark:bg-gray-900 flex flex-col z-10">
+            <div transition:slide class="absolute inset-0 container w-full h-auto bg-white dark:bg-gray-900 flex flex-col z-10">
                 
                 <div class="flex flex-col justify-center items-center w-full">
                     <div
@@ -172,12 +253,11 @@
                     >
                         <div class="flex flex-col">
                             <h2 class="font-bold align-middle text-gray-800 dark:text-white">
-                                Google Map
+                                Laboon Map
                             </h2>
                             <small class="text-gray-700 dark:text-gray-100">Your Target Location on Island</small>
                         </div>
 
-                        {#if mapError}<p class="text-xs text-red-500">{mapError}</p>{/if}
                         <button
                             on:click={() => {
                                 if (!navigator.geolocation) {
@@ -205,6 +285,7 @@
                     </div>
 
                     <div class="flex-1 w-full">
+                        {#if mapError}<p class="text-xs text-red-500">{mapError}</p>{/if}
                         {#if mapReady}
                             <MapComponent />
                         {/if}
@@ -215,14 +296,17 @@
             {/if}
             
             {#if weather}
-            <div class="absolute inset-0 container w-full h-auto bg-white dark:bg-gray-900 flex flex-col z-0">
-                <div class="w-full h-auto md:h-[33rem] flex justify-center items-center">
-                    <div class="flex justify-center align-middle items-center">
+            <div transition:slide class="absolute inset-0 container w-full h-auto bg-white dark:bg-gray-900 flex flex-col z-0">
+                <div class="w-full h-auto md:h-[33rem] flex flex-col justify-between items-center">
+                    <div class="flex flex-col justify-center items-center">
                         <div
-                            class="p-4 m-2 border border-gray-200 dark:border-gray-500 rounded shadow bg-white dark:bg-gray-600"
+                            class="flex md:flex-row border-b bg-white dark:bg-gray-600 py-4 px-4"
                         >
-                            <h1 class="p-2 font-bold text-gray-700 dark:text-white">City Weather</h1>
-                            <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col mr-8">
+                                <h1 class="font-bold text-gray-700 dark:text-white">Laboon Weather</h1>
+                                <small class="text-gray-700 dark:text-gray-100">Check your weather Location</small>
+                            </div>
+                            <div class="flex flex-row py-0">
                                 <CountriesInput
                                     {data}
                                     on:selectedCountry={async (e) => {
@@ -256,9 +340,9 @@
                                     }}
                                 />
                             </div>
-                            <div class="flex">
-                                <WeatherComponent />
-                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <WeatherComponent />
                         </div>
                     </div>
                 </div>

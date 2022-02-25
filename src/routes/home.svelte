@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores';
 	import authStore from '../libs/stores/user';
+	import { modal } from '../libs/stores/';
     import { Reservation, ReservationForm } from '../libs/components/index'
     
 	let thisSession: any = $session;
@@ -16,12 +17,16 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Laboon | Home</title>
+</svelte:head>
+
 <div class="h-auto w-full bg-gray-100 dark:bg-gray-800">
     <div class="grid grid-cols-12 gap-0">
         <div class="col-span-full md:col-span-4 bg-white dark:bg-gray-800 relative border-r">
             
             <div class="absolute inset-y-0 left-0 border-r">
-                <div class="w-24 bg-white dark:bg-gray-900 h-auto md:h-[34.5rem] flex flex-col justify-between items-center border-l relative">
+                <div class="w-24 bg-white dark:bg-gray-900 h-auto md:h-[34rem] flex flex-col justify-between items-center border-l relative">
                     <div class="w-full h-auto flex flex-col">
                         <div class="flex w-full overflow-hidden bg-white my-2">
                             <div class="flex items-center justify-center w-full py-4">
@@ -48,16 +53,20 @@
             </div>
             
             <div class="p-6 mx-auto bg-white dark:bg-gray-900 pl-32">
-                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300 capitalize">Reservation Input</h2>
+                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300 capitalize">Component List</h2>
                 
-                
-                <ReservationForm />
+                <ul>
+                    <li class="dark:text-white">Reservation</li>
+                </ul>
             </div>
 
         </div>
         <div class="col-span-full md:col-span-8 bg-white dark:bg-gray-900 relative">
-            <div class="w-full h-auto py-3 md:py-6 px-8 border-b md:mb-4">
+            <div class="w-full h-auto flex justify-between py-3 md:py-6 px-8 border-b md:mb-4">
                 <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300 capitalize">Reservation List</h2>
+                <div class="w-auto h-auto px-4 py-1 border rounded-md">
+                    <small class="dark:text-white">Add Reservation</small>
+                </div>
             </div>
 
             <Reservation />

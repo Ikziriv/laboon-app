@@ -36,16 +36,21 @@
 		Header, 
 		Footer, 
 		PageTransition,
+		Modal, 
+		ModalAbout, 
+		ModalBackDrop,
 		PageLoading
 	} from "../libs/components/index";
 	import { loading } from '../libs/utils/loading'
 	import '../styles/css/app.css';
 
+	let modalAbout = false;
+
 	$: loading.setNavigate(!!navigating)
 </script>
 <!-- <PageLoading /> -->
 <div class="w-full h-auto md:h-screen relative">
-    <Header classes="fixed inset-x-0 top-0" />
+    <Header {modalAbout} classes="fixed inset-x-0 top-0" />
     <main class="w-full h-auto relative">
 		<PageTransition>
         	<slot />
@@ -53,3 +58,9 @@
     </main>
     <Footer classes="fixed inset-x-0 bottom-0" />
 </div>
+
+<Modal isOpen={modalAbout} index={1} isSidePanel={false} >
+    <ModalAbout />
+</Modal>
+
+<ModalBackDrop />

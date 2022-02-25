@@ -1,11 +1,11 @@
 import cookie from 'cookie';
-import type { Handle, RequestEvent } from '@sveltejs/kit';
+import type { Handle } from '@sveltejs/kit';
 import type { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 import { decodeToken } from './libs/server/firebase';
 import { publicPages } from './libs/utils/constants';
-import { FIREBASE_CLIENT_CONFIG } from './libs/server/constants';
+// import { FIREBASE_CLIENT_CONFIG } from './libs/server/constants';
 
-export async function getSession(event: RequestEvent) {
+export async function getSession(event: any) {
 	const locals: any = event.locals;
 	const decodedToken: DecodedIdToken | null = locals.decodedToken;
 	const firebaseClientConfig = {
@@ -41,6 +41,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	const response = await resolve(event);
-
+	
 	return response;
 };

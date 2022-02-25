@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import ModalStack from './ModalStack.svelte'
     import { closeModal } from './modal.store'
   </script>
