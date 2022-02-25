@@ -6,6 +6,7 @@ import { browser } from '$app/env';
 import { readable } from 'svelte/store';
 import type { Document } from '$libs/models/Document';
 import type { AnyObject } from './types';
+import { firebaseConfig } from '../config'
 
 import {
 	collection,
@@ -33,7 +34,7 @@ export let app: FirebaseApp;
 export let db: Firestore;
 export function initializeFirebase(options: FirebaseOptions) {
 	if (!app) {
-		app = initializeApp(options);
+		app = initializeApp(firebaseConfig);
 		db = getFirestore(app);
 		listenForAuthChanges();
 	}

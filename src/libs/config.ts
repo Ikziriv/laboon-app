@@ -2,6 +2,17 @@ export const config = {
     baseUrl: import.meta.env.VITE_BASE_URL
 }
 
+export const firebaseConfig = {
+    "apiKey": "AIzaSyBk52yhco1B_HJtZEcu1DvSNhEKj5AFKlY",
+    "authDomain": "laboon-app.firebaseapp.com",
+    "databaseURL": "https://laboon-app-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    "projectId": "laboon-app",
+    "storageBucket": "laboon-app.appspot.com",
+    "messagingSenderId": "582128073252",
+    "appId": "1:582128073252:web:fe89ec5871d7054640b6b1",
+    "measurementId": "G-84NGMZBGDJ"
+}
+
 export const siteSeoBase = {
     title: 'Laboon Apps + Svelte',
     description: 'Svelte with brilliant bells and useful whistles',
