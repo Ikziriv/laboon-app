@@ -1,5 +1,5 @@
 import { readable } from 'svelte/store';
-import { firebaseApp } from "../firebase";
+import { app } from "../utils/firebase";
 import type { UserRec } from "../models";
 import type { User } from 'firebase/auth';
 import {
@@ -10,7 +10,7 @@ import {
     signOut
 } from 'firebase/auth';
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth(app);
 
 export async function loginWithGoogle() {
     return await signInWithPopup(auth, new GoogleAuthProvider());

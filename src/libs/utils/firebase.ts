@@ -1,6 +1,12 @@
 import { initializeApp } from 'firebase/app';
 import type { FirebaseApp, FirebaseOptions } from 'firebase/app';
 import type { Firestore } from 'firebase/firestore';
+import { session } from '$app/stores';
+import { browser } from '$app/env';
+import { readable } from 'svelte/store';
+import type { Document } from '$libs/models/Document';
+import type { AnyObject } from './types';
+
 import {
 	collection,
 	getDocs,
@@ -13,6 +19,7 @@ import {
 	setDoc,
 	deleteDoc
 } from 'firebase/firestore';
+
 import {
 	getAuth,
 	signInWithRedirect,
@@ -21,11 +28,6 @@ import {
 	signInWithPopup,
 	onIdTokenChanged
 } from 'firebase/auth';
-import { session } from '$app/stores';
-import { browser } from '$app/env';
-import { readable } from 'svelte/store';
-import type { Document } from '$libs/models/Document';
-import type { AnyObject } from './types';
 
 export let app: FirebaseApp;
 export let db: Firestore;
