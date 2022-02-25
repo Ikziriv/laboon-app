@@ -36,9 +36,6 @@
 		Header, 
 		Footer, 
 		PageTransition,
-		Modal, 
-		ModalAbout, 
-		ModalBackDrop,
 		PageLoading
 	} from "../libs/components/index";
 	import { loading } from '../libs/utils/loading'
@@ -58,9 +55,3 @@
     </main>
     <Footer classes="fixed inset-x-0 bottom-0" />
 </div>
-
-<Modal isOpen={modalAbout} index={1} isSidePanel={false} >
-    <ModalAbout />
-</Modal>
-
-<ModalBackDrop />
