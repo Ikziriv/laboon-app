@@ -14,8 +14,6 @@ export { default as Modal }
 from './modal/Modal.svelte'
 export { default as ModalAbout }
 from './modal/ModalAbout.svelte'
-export { default as ModalBackDrop }
-from './modal/ModalBackDrop.svelte'
 export { default as ModalStack }
 from './modal/ModalStack.svelte'
 
