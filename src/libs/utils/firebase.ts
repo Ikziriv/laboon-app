@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import type { FirebaseApp, FirebaseOptions } from 'firebase/app';
 import type { Firestore } from 'firebase/firestore';
+import type { Analytics } from "firebase/analytics";
 import { session } from '$app/stores';
 import { browser } from '$app/env';
 import { readable } from 'svelte/store';
@@ -21,6 +22,10 @@ import {
 	deleteDoc
 } from 'firebase/firestore';
 
+import { 
+	getAnalytics 
+} from "firebase/analytics";
+
 import {
 	getAuth,
 	signInWithRedirect,
@@ -32,9 +37,11 @@ import {
 
 export let app: FirebaseApp;
 export let db: Firestore;
-export function initializeFirebase(options: FirebaseOptions) {
+export let analytics: Analytics;
+export function initializeFirebase(firebaseConfig: FirebaseOptions) {
 	if (!app) {
 		app = initializeApp(firebaseConfig);
+		analytics = getAnalytics(app);
 		db = getFirestore(app);
 		listenForAuthChanges();
 	}
