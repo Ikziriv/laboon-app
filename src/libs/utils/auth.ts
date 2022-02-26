@@ -1,25 +1,46 @@
-import type { User } from 'firebase/auth';
-import type { iResponse } from './interfaces';
-import { UserStore, isLoggedIn, userId } from '../stores/user';
+import {
+	getAuth,
+	signInWithRedirect,
+	signOut as _signOut,
+	GoogleAuthProvider,
+	signInWithPopup
+} from 'firebase/auth';
 
-/**
- * Custom AuthError for better handling
- *
- * @class AuthError
- * @extends {Error}
- */
- class AuthError extends Error {
-    code: string;
-    ocurredAt: Date;
-    constructor(code: string, message: string, ...params: never[]) {
-      super(...params);
-      this.name = 'AuthError';
-      this.code = code;
-      this.message = message;
-      this.ocurredAt = new Date();
-    }
+import { app, getAuthClient  } from './firebase';
+import { Account } from './account';
+
+function providerFor(name: string) {
+	switch (name) {
+		case 'google':
+			return new GoogleAuthProvider();
+		default:
+			throw 'unknown provider ' + name;
+	}
+}
+
+export async function signInWith(name: string) {
+	const auth = getAuth(app);
+	const provider = providerFor(name);
+	await signInWithRedirect(auth, provider);
+}
+
+export async function signInGoogleWithPopup(): Promise<Account> {
+	const auth = await getAuthClient();
+	const { signInWithPopup, GoogleAuthProvider } = await import('firebase/auth');
+	const { user } = await signInWithPopup(auth, new GoogleAuthProvider());
   
-    toString = () => {
-      return `\n<===============\n${this.name}:\nCode: ${this.code}\nMessage: ${this.message}\nOcurred at: ${this.ocurredAt}\n================>`;
-    };
-  }
+	return Account.loggedIn({
+		uid: user.uid,
+		displayName: user.displayName,
+		email: user.email,
+		photoURL: user.photoURL
+	});
+}
+
+export async function signOut(): Promise<Account> {
+  const auth = await getAuthClient();
+  const { signOut } = await import('firebase/auth');
+  await signOut(auth);
+
+  return Account.loggedOut();
+}

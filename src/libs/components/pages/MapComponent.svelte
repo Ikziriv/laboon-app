@@ -1,5 +1,5 @@
 <script>
-	import locationStore from '../stores/location-store';
+	import locationStore from '../../stores/location-store';
 	import { onMount } from 'svelte';
 	let container;
 	let map;
@@ -8,6 +8,7 @@
 	$: center = $locationStore;
     
 	onMount(async () => {
+		// @ts-ignore
 		map = new google.maps.Map(container, {
 			zoom,
 			center

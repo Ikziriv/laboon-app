@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { browser } from '$app/env';
 	import { session } from '$app/stores';
-	import { signOut } from '../../libs/utils/firebase';
+	import { signOut } from '../../libs/utils/auth';
 	import modeStore from '../../libs/stores/theme-store';
+	import { sideAbout, sideFaq } from '../../libs/stores/index';
 	import { MoonIcon, SunIcon } from '../../libs/components/index';
 	import { modal } from '../../libs/stores';
     
     export const classes: string = undefined
-	export let modalAbout  = false;
 
 	let thisSession: any;
 	$: thisSession = $session;
@@ -19,7 +19,12 @@
     
     // Function About
     function toggleAbout() {
-        modalAbout = !modalAbout;
+        sideAbout.update((sideAbout) => (sideAbout = !sideAbout))
+    }
+    
+    // Function Faq
+    function toggleFaq() {
+        sideFaq.update((sideFaq) => (sideFaq = !sideFaq))
     }
 </script>
 <header class="{classes} w-full h-auto border-b bg-white dark:bg-gray-900">
@@ -35,7 +40,7 @@
         <div class="flex flex-row justify-between md:justify-center py-4 md:py-6">
             <div class="flex flex-row">
                 <div class="mr-4" on:click={() => toggleAbout()}>
-                    <span class="uppercase text-xs font-bold dark:text-white">
+                    <span class="uppercase text-xs font-bold dark:text-white cursor-pointer">
                         <small>About</small>
                     </span>
                 </div>
@@ -52,8 +57,8 @@
                     </span>
                 </div>
                 {/if}
-                <div class="mr-2">
-                    <span class="uppercase text-xs font-bold dark:text-white">
+                <div class="mr-2" on:click={() => toggleFaq()}>
+                    <span class="uppercase text-xs font-bold dark:text-white cursor-pointer">
                         <small>FAQ</small>
                     </span>
                 </div>

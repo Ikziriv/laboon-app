@@ -1,7 +1,7 @@
 <script>
-	import weatherStore from '../stores/weather-store';
-	import { Loader } from '../components/index';
-	import { temperatureConverter } from '../utils/weather';
+	import weatherStore from '../../stores/weather-store';
+	import { Loader } from '../../components/index';
+	import { temperatureConverter } from '../../utils/weather';
 
 	let value = { result: 'No city selected' };
 

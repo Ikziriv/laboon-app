@@ -1,12 +1,21 @@
 <script context="module" lang="ts">
-	import { publicPages } from '../libs/utils/constants';
+	import { getApps, getApp } from 'firebase/app';
+	import { publicPages } from '../libs/constants';
 	import { initializeFirebase } from '../libs/utils/firebase';
 	import { UserStore, userId, isLoggedIn } from '../libs/stores/user';
 	import { browser } from '$app/env';
+	import { firebaseConfig } from '../libs/config'
+
 	export async function load({ url, session }: LoadInput) {
 		const thisSession: any = session;
+		
 		if (browser) {
-			initializeFirebase(thisSession.firebaseClientConfig);
+			if(getApps().length === 0) {
+				initializeFirebase(firebaseConfig)
+			} else {
+				getApp()
+			}
+
 			if(thisSession.user) {
 				console.log(thisSession.user);
 
@@ -22,6 +31,7 @@
 				userId.set(null);
 			}
 		}
+
 		if (!thisSession.user && !publicPages.includes(url.pathname)) {
 			return { redirect: '/', status: 302 };
 		} else {
@@ -38,16 +48,20 @@
 		PageTransition,
 		PageLoading
 	} from "../libs/components/index";
+
 	import { loading } from '../libs/utils/loading'
+
 	import '../styles/css/app.css';
 
-	let modalAbout = false;
+	let sideAbout = false;
+	let sideFaq = false;
 
 	$: loading.setNavigate(!!navigating)
 </script>
+
 <!-- <PageLoading /> -->
 <div class="w-full h-auto md:h-screen relative">
-    <Header {modalAbout} classes="fixed inset-x-0 top-0" />
+    <Header classes="fixed inset-x-0 top-0" />
     <main class="w-full h-auto relative">
 		<PageTransition>
         	<slot />

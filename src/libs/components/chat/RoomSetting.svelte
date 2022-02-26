@@ -136,13 +136,13 @@
 </script>
 
 
-<div class="w-full border-2 border-gray-200 shadow-md rounded-md p-4 h-64 dark:bg-gray-900 dark:border-purple-600 overflow-auto">
+<div class="w-full border-2 border-gray-200 shadow-md rounded-md p-4 h-auto dark:bg-gray-900 dark:border-gray-600 overflow-auto">
     <div class="flex flex-row justify-between items-center mb-4">
         <h3 class="text-xl font-semibold dark:text-white">
             Settings
         </h3>
         <span 
-            class="text-xs font-medium text-gray-900 hover:text-purple-800 dark:text-gray-50 dark:hover:text-purple-800 cursor-pointer"
+            class="text-xs font-medium text-gray-900 hover:text-gray-800 dark:text-gray-50 dark:hover:text-gray-800 cursor-pointer"
             on:click={handleSignOut}
         >    
             Log out
@@ -151,9 +151,9 @@
     <!-- Create room section -->
     {#if !isInRoom}
     <button 
-        class="block text-sm bg-purple-600 text-white w-full border-2 border-purple-600 rounded-md px-4 py-1 duration-200
+        class="block text-sm bg-gray-600 text-white w-full border-2 border-gray-600 rounded-md px-4 py-1 duration-200
         hover:bg-white hover:text-black
-        dark:bg-purple-800 dark:border-purple-800 dark:hover:bg-gray-900 dark:hover:text-white"
+        dark:bg-gray-800 dark:border-gray-800 dark:hover:bg-gray-900 dark:hover:text-white"
         on:click={createRoom}
     >
         Create a room
@@ -165,8 +165,8 @@
         <input 
             type="text" 
             class="block bg-gray-200 text-sm w-full p-1 border-2 border-gray-200 rounded-md outline-none 
-            focus:border-purple-600 
-            dark:bg-gray-700 dark:text-gray-50 dark:border-gray-700 dark:focus:border-purple-600"
+            focus:border-gray-600 
+            dark:bg-gray-700 dark:text-gray-50 dark:border-gray-700 dark:focus:border-gray-600"
             placeholder="Enter room code"
             bind:value={roomCode}
             required
@@ -185,18 +185,18 @@
         </span>
     </p>
     <button 
-        class="block text-sm bg-white text-black w-full border-2 border-purple-600 rounded-md px-4 py-1 mb-4 duration-200
-        hover:bg-purple-600 hover:text-white
-        dark:bg-gray-900 dark:text-white dark:hover:bg-purple-600"
+        class="block text-sm bg-white text-black w-full border-2 border-gray-600 rounded-md px-4 py-1 mb-4 duration-200
+        hover:bg-gray-600 hover:text-white
+        dark:bg-gray-900 dark:text-white dark:hover:bg-gray-600"
         on:click={leaveRoom}    
     >
         Leave room 
     </button>
     {#if isRoomAdmin}
     <button 
-        class="block text-sm bg-purple-600 text-white w-full border-2 border-purple-600 rounded-md px-4 py-1 duration-200
+        class="block text-sm bg-gray-600 text-white w-full border-2 border-gray-600 rounded-md px-4 py-1 duration-200
         hover:bg-white hover:text-black
-        dark:bg-purple-600 dark:text-white dark:hover:bg-gray-900"
+        dark:bg-gray-600 dark:text-white dark:hover:bg-gray-900"
         on:click={endRoom}
     >
         End room 

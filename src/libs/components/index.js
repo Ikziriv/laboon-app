@@ -22,12 +22,18 @@ from './modal/ModalStack.svelte'
 export { default as Toast }
 from './alert/Toast.svelte'
 
-export { default as MapComponent }
-from './MapComponent.svelte'
+// Pages
+
 export { default as PageTransition }
 from './PageTransition.svelte'
+export { default as AboutComponent }
+from './pages/AboutComponent.svelte'
+export { default as FaqComponent }
+from './pages/FaqComponent.svelte'
+export { default as MapComponent }
+from './pages/MapComponent.svelte'
 export { default as WeatherComponent }
-from './WeatherComponent.svelte'
+from './pages/WeatherComponent.svelte'
 
 // Reservation
 

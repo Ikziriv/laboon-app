@@ -1,4 +1,4 @@
-import { FIREBASE_SERVER_CONFIG } from './constants';
+import { FIREBASE_SERVER_CONFIG } from '../constants';
 import type { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 import type { Document } from '$libs/models/Document';
 import admin from 'firebase-admin';

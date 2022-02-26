@@ -3,6 +3,7 @@
 	import { session } from '$app/stores';
 	import authStore from '../libs/stores/user';
 	import { modal } from '../libs/stores/';
+	import { db } from '../libs/utils/firebase';
     import { Reservation, ReservationForm } from '../libs/components/index'
     
 	let thisSession: any = $session;

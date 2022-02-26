@@ -45,7 +45,7 @@
     }
 </script>
 
-<div class="chat-area w-full bg-gray-100 shadow-inner dark:bg-gray-800 md:rounded-md">
+<div class=" h-auto md:h-[28rem] w-full bg-gray-100 shadow-inner dark:bg-gray-800 md:rounded-md overflow-auto">
     {#if isInRoom}
     <div class="w-full h-full flex flex-col justify-between">
         <div class="h-full p-2 overflow-auto">
@@ -100,11 +100,13 @@
         </form>
     </div>
     {:else}
-    <div class="w-full h-full px-2 flex flex-col justify-center items-center">
-        <h4 class="text-md text-gray-900 dark:text-gray-50">
-            Oops. It seems that you are not a part of any conversation right now. 
-            Create a room or join one to get started.
-        </h4>
+    <div class="w-full h-full px-2 flex flex-col justify-start items-start py-4 px-4">
+        <div class="max-w-md ml-2">
+            <h4 class="text-sm text-gray-900 dark:text-gray-50">
+                Oops. It seems that you are not a part of any conversation right now. 
+                Create a room or join one to get started.
+            </h4>
+        </div>
     </div>
     {/if}
 </div>
@@ -115,9 +117,6 @@
         scroll-behavior: smooth;
     }
     /* Chat area */
-    .chat-area {
-        height: 90vh;
-    }
     
     /* Scrollbar styling */
     ::-webkit-scrollbar {
@@ -137,11 +136,5 @@
     /* Hover effect on thumb */
     ::-webkit-scrollbar-thumb:hover {
         background-color: rgb(107 33 168);
-    }
-    
-    @media all and (min-width: 768px) {
-        .chat-area {
-            height: 85vh;
-        }
     }
 </style>

@@ -22,8 +22,8 @@
 	import { onMount } from 'svelte';
 	import { page, session } from '$app/stores';
 	import { slide } from 'svelte/transition';
-    import { getAuth, onAuthStateChanged } from 'firebase/auth';
-	import { signInWith, signInGoogleWithPopup, signOut} from '../libs/utils/firebase';
+    import { getAuth } from 'firebase/auth';
+	import { signInGoogleWithPopup, signOut} from '../libs/utils/auth';
 	import locationStore from '../libs/stores/location-store';
 	import citiesStore from '../libs/stores/cities-store';
 	import weatherStore from '../libs/stores/weather-store';
@@ -33,6 +33,8 @@
         CitiesInput, 
         CountriesInput, 
         WeatherComponent, 
+		AboutComponent,
+		FaqComponent,
         ChatArea, 
         RoomSetting 
     } from '../libs/components/index';
@@ -116,11 +118,12 @@
 	let cities;
 	$: cities = $citiesStore?.cities ? $citiesStore?.cities : [];
 
-	onMount(() => {
+	onMount(async () => {
         // Map
+		// @ts-ignore
 		if (typeof window.google === 'undefined') {
 			mapScript = document.createElement('script');
-			mapScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?callback=initMap');
+			mapScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBk52yhco1B_HJtZEcu1DvSNhEKj5AFKlY&callback=initMap');
 			document.body.appendChild(mapScript);
 		} else {
 			mapReady = true;
@@ -205,6 +208,10 @@
         </div>
         
         <div class="col-span-full md:col-span-8 relative">
+            <!-- Components -->
+            <AboutComponent  />
+            <FaqComponent />
+
             {#if chat}
             <div transition:slide class="absolute inset-0 container w-full h-auto bg-white dark:bg-gray-900 flex flex-col z-20">
                 
