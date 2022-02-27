@@ -1,5 +1,5 @@
 import { readable } from 'svelte/store';
-import { app } from "../utils/firebase";
+import { firebaseApp, getAuthClient } from "../utils/firebase";
 import type { UserRec } from "../models";
 import type { User } from 'firebase/auth';
 import {
@@ -10,17 +10,18 @@ import {
     signOut
 } from 'firebase/auth';
 
-const auth = getAuth(app);
-
 export async function loginWithGoogle() {
+    const auth = await getAuthClient();
     return await signInWithPopup(auth, new GoogleAuthProvider());
 }
 
 export async function logout() {
+    const auth = await getAuthClient();
     return await signOut(auth);
 }
 
 export const user = readable<UserRec>(null, set => {
+    const auth = getAuth(firebaseApp);
     const unsubscribe = onIdTokenChanged(auth, (u: User) => set(u));
     return () => {
         if (unsubscribe) {

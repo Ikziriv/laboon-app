@@ -38,7 +38,7 @@
             </a>
         </div>
         <div class="flex flex-row justify-between md:justify-center py-4 md:py-6">
-            <div class="flex flex-row">
+            <div class="flex flex-row mt-1">
                 <div class="mr-4" on:click={() => toggleAbout()}>
                     <span class="uppercase text-xs font-bold dark:text-white cursor-pointer">
                         <small>About</small>
@@ -66,7 +66,7 @@
             <div class="ml-4">
                 <button
                     type="button"
-                    class="bg-transparent px-6 py-1.5 shadow rounded-lg"
+                    class="bg-transparent px-6 py-2 shadow rounded-full border"
                     on:click={() => modeStore.update((m) => (m = !m))}
                     aria-label={`${modeStore ? 'Turn on Light Mode' : 'Turn on Dark Mode'}`}
                 >

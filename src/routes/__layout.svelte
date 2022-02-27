@@ -4,18 +4,13 @@
 	import { initializeFirebase } from '../libs/utils/firebase';
 	import { UserStore, userId, isLoggedIn } from '../libs/stores/user';
 	import { browser } from '$app/env';
-	import { firebaseConfig } from '../libs/config'
+	import { firebaseConfig } from '../libs/config';
 
 	export async function load({ url, session }: LoadInput) {
 		const thisSession: any = session;
-		
-		if (browser) {
-			if(getApps().length === 0) {
-				initializeFirebase(firebaseConfig)
-			} else {
-				getApp()
-			}
+		const firebaseApp = browser && (getApps.length === 0 ? initializeFirebase(firebaseConfig) : getApp)
 
+		if (browser) {
 			if(thisSession.user) {
 				console.log(thisSession.user);
 
@@ -37,6 +32,8 @@
 		} else {
 			return {};
 		}
+
+		console.log({ firebaseApp });
 	}
 </script>
 <script lang="ts">

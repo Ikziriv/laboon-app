@@ -4,7 +4,12 @@
 	import authStore from '../libs/stores/user';
 	import { modal } from '../libs/stores/';
 	import { db } from '../libs/utils/firebase';
-    import { Reservation, ReservationForm } from '../libs/components/index'
+    import { 
+        Reservation, 
+        ReservationForm,
+		AboutComponent,
+		FaqComponent
+    } from '../libs/components/index'
     
 	let thisSession: any = $session;
 	console.log(thisSession.user);
@@ -27,7 +32,7 @@
         <div class="col-span-full md:col-span-4 bg-white dark:bg-gray-800 relative border-r">
             
             <div class="absolute inset-y-0 left-0 border-r">
-                <div class="w-24 bg-white dark:bg-gray-900 h-auto md:h-[34rem] flex flex-col justify-between items-center border-l relative">
+                <div class="w-24 bg-white dark:bg-gray-900 h-auto md:h-[33rem] flex flex-col justify-between items-center border-l relative">
                     <div class="w-full h-auto flex flex-col">
                         <div class="flex w-full overflow-hidden bg-white my-2">
                             <div class="flex items-center justify-center w-full py-4">
@@ -40,7 +45,7 @@
                     </div>
 
                     <div class="w-full h-auto flex flex-col">
-                        <div class="flex w-full overflow-hidden bg-gray-100 dark:bg-gray-800 my-2">
+                        <div class="flex w-full overflow-hidden bg-gray-100 dark:bg-gray-800 my-0">
                             <div class="flex items-center justify-center w-full py-4">
                                 <svg class="bi bi-person-circle w-6 h-6 text-gray-900 dark:text-white fill-current" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -63,14 +68,21 @@
 
         </div>
         <div class="col-span-full md:col-span-8 bg-white dark:bg-gray-900 relative">
-            <div class="w-full h-auto flex justify-between py-3 md:py-6 px-8 border-b md:mb-4">
-                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300 capitalize">Reservation List</h2>
-                <div class="w-auto h-auto px-4 py-1 border rounded-md">
-                    <small class="dark:text-white">Add Reservation</small>
+            <!-- Components -->
+            <AboutComponent  />
+            <FaqComponent />
+            
+            <div class="container w-full h-auto md:h-[33rem] mx-auto flex flex-col justify-end md:justify-center items-end md:items-center overflow-auto">
+                
+                <div class="w-full h-auto flex justify-between py-3 md:py-6 px-8 border-b md:mb-4">
+                    <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300 capitalize">Reservation List</h2>
+                    <div class="w-auto h-auto px-4 py-1 border rounded-md bg-blue-500 dark:bg-blue-900">
+                        <small class="text-white dark:text-white">Add Reservation</small>
+                    </div>
                 </div>
-            </div>
 
-            <Reservation />
+                <Reservation />
+            </div>
         </div>
     </div>
 </div>

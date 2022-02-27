@@ -136,18 +136,7 @@
 </script>
 
 
-<div class="w-full border-2 border-gray-200 shadow-md rounded-md p-4 h-auto dark:bg-gray-900 dark:border-gray-600 overflow-auto">
-    <div class="flex flex-row justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold dark:text-white">
-            Settings
-        </h3>
-        <span 
-            class="text-xs font-medium text-gray-900 hover:text-gray-800 dark:text-gray-50 dark:hover:text-gray-800 cursor-pointer"
-            on:click={handleSignOut}
-        >    
-            Log out
-        </span>
-    </div>
+<div class="w-full p-4 h-auto dark:bg-gray-900 dark:border-gray-600 overflow-auto">
     <!-- Create room section -->
     {#if !isInRoom}
     <button 

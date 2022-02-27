@@ -6,7 +6,7 @@ import {
 	signInWithPopup
 } from 'firebase/auth';
 
-import { app, getAuthClient  } from './firebase';
+import { getAuthClient } from './firebase';
 import { Account } from './account';
 
 function providerFor(name: string) {
@@ -19,7 +19,7 @@ function providerFor(name: string) {
 }
 
 export async function signInWith(name: string) {
-	const auth = getAuth(app);
+	const auth = await getAuthClient();
 	const provider = providerFor(name);
 	await signInWithRedirect(auth, provider);
 }
